@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  main:
+    build:
+      context: .
+      dockerfile: main.dockerfile
+    ports:
+      - "5000:5000"
+
+  genderize:
+    build:
+      context: .
+      dockerfile: genderize.dockerfile
+    ports:
+      - "7000:7000"
+
+  agify:
+    build:
+      context: .
+      dockerfile: agify.dockerfile
+    ports:
+      - "6000:6000"

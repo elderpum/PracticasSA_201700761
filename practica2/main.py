@@ -4,10 +4,17 @@ import requests
 app = Flask(__name__)
 
 # URL base de los microservicios de Genderize y Agify
-GENDERIZE_BASE_URL = "http://practica2-genderize-1:7000/genderize" # Nombre del contenedor de docker
-AGIFY_BASE_URL = "http://practica2-agify-1:6000/agify" # Nombre del contenedor de docker
+#GENDERIZE_BASE_URL = "http://practica2-genderize-1:7000/genderize" # Nombre del contenedor de docker
+#AGIFY_BASE_URL = "http://practica2-agify-1:6000/agify" # Nombre del contenedor de docker
 
-@app.route('/process_name', methods=['POST'])
+#GENDERIZE_BASE_URL = "http://localhost:7000/genderize" # Nombre del localhost
+#AGIFY_BASE_URL = "http://localhost:6000/agify" # Nombre del localhost
+
+# URL base de los microservicios de Genderize y Agify
+GENDERIZE_BASE_URL = "http://service-genderize:5002/" # Apuntando al servicio de kubernetes
+AGIFY_BASE_URL = "http://service-agify:5001/" # Apuntando al servicio de kubernetes
+
+@app.route('/', methods=['POST'])
 def process_name():
     data = request.json
     name = data.get('name')

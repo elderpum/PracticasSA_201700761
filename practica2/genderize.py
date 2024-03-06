@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-@app.route('/genderize', methods=['GET'])
+@app.route('/', methods=['GET'])
 def genderize():
     name = request.args.get('name')
 
@@ -17,4 +17,4 @@ def genderize():
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=7000)
+    app.run(debug=True, port=5002)

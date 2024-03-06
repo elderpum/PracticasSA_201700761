@@ -13,11 +13,11 @@ services:
       context: .
       dockerfile: genderize.dockerfile
     ports:
-      - "7000:7000"
+      - "5002:5002"
 
   agify:
     build:
       context: .
       dockerfile: agify.dockerfile
     ports:
-      - "6000:6000"
+      - "5001:5001"

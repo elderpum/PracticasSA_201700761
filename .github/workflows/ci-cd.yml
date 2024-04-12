@@ -66,9 +66,9 @@ jobs:
       # Apply the Kubernetes manifest for deployment
       - name: Deploy agify, genderize and main
         run: |
-          kubectl delete deployment agify -n microservices-201700761
-          kubectl delete deployment genderize -n microservices-201700761
-          kubectl delete deployment main -n microservices-201700761
+          kubectl delete deployment service-agify -n microservices-201700761
+          kubectl delete deployment service-genderize -n microservices-201700761
+          kubectl delete deployment service-main -n microservices-201700761
 
           kubectl apply -f practica3/agify.yaml
           kubectl apply -f practica3/genderize.yaml

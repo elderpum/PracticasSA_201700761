@@ -2,6 +2,7 @@ name: feature build and test
 on:
   push:
     branches:
+      - "feature" # Run on feature branch
       - "feature/*" # Ejecutar en todas las ramas de características
 
 jobs:

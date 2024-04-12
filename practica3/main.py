@@ -30,12 +30,16 @@ def process_name():
     age_response = requests.get(f"{AGIFY_BASE_URL}?name={name}")
     age_data = age_response.json()
 
-    response = {
-        'name': name,
-        'gender': gender_data.get('gender'),
-        'gender_probability': gender_data.get('probability'),
-        'age': age_data.get('age')
-    }
+    # Un try catch para manejar errores, ya sea que alguno de los 2 servicios no responda
+    try:
+        response = {
+            'name': name,
+            'gender': gender_data.get('gender'),
+            'gender_probability': gender_data.get('probability'),
+            'age': age_data.get('age')
+        }
+    except:
+        return jsonify({'error': 'Error en la comunicación con los servicios'}), 500
 
     return jsonify(response)
 

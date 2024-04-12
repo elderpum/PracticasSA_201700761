@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           cd practica3
-          docker build -t epum/agifiy:latest -f agify.dockerfile .
+          docker build -t epum/agify:latest -f agify.dockerfile .
           docker build -t epum/genderize:latest -f genderize.dockerfile .
           docker build -t epum/main:latest -f main.dockerfile .
           echo "All images built successfully!"
@@ -31,7 +31,7 @@ jobs:
       # Paso de entrega
       - name: Deliver
         run: |
-          docker push epum/agifiy:latest
+          docker push epum/agify:latest
           docker push epum/genderize:latest
           docker push epum/main:latest
           echo "Images delivered successfully!"

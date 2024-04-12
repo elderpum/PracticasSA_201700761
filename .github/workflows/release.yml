@@ -34,6 +34,22 @@ jobs:
           echo "Running tests..."
           echo "All tests passed successfully!"
 
+      # Obtener la última versión y generar la nueva versión
+      - name: Get last version and generate new version
+        id: version
+        run: |
+          LAST_VERSION=$(git describe --tags --abbrev=0)
+          NEW_VERSION=${LAST_VERSION/v1./}
+          NEW_VERSION=$((NEW_VERSION + 1))
+          echo "::set-output name=new_version::v1.$NEW_VERSION"
+
+      # Crear y empujar la nueva etiqueta de versión
+      - name: Create and push version tag
+        run: |
+          NEW_TAG=${{ steps.version.outputs.new_version }}
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+
       # Paso de entrega
       - name: Deliver
         run: |

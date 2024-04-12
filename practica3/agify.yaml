@@ -21,6 +21,7 @@ spec:
       containers:
         - name: service-agify
           image: epum/agify:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5001
 ---

@@ -21,6 +21,7 @@ spec:
       containers:
         - name: service-genderize
           image: epum/genderize:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5002
 ---

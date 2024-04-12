@@ -36,7 +36,8 @@ def process_name():
             'name': name,
             'gender': gender_data.get('gender'),
             'gender_probability': gender_data.get('probability'),
-            'age': age_data.get('age')
+            'age': age_data.get('age'),
+            'autor': 'Elder Pum - 201700761'
         }
     except:
         return jsonify({'error': 'Error en la comunicación con los servicios'}), 500

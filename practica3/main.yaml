@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: microservices-201700761
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-main
+  namespace: microservices-201700761
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-main
+  template:
+    metadata:
+      labels:
+        app: service-main
+    spec:
+      containers:
+        - name: service-main
+          image: epum/main:latest
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-main
+  namespace: microservices-201700761
+spec:
+  type: LoadBalancer
+  selector:
+    app: service-main
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

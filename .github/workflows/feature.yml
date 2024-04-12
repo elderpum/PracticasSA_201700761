@@ -18,6 +18,7 @@ jobs:
           docker build -t epum/agifiy:latest -f agify.dockerfile .
           docker build -t epum/genderize:latest -f genderize.dockerfile .
           docker build -t epum/main:latest -f main.dockerfile .
+          echo "All images built successfully!"
 
       # Paso de prueba (puedes agregar tus propios pasos de prueba aquí)
       - name: Test

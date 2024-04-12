@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import requests
+from datetime import date
 
 app = Flask(__name__)
 
@@ -30,6 +31,9 @@ def process_name():
     age_response = requests.get(f"{AGIFY_BASE_URL}?name={name}")
     age_data = age_response.json()
 
+    # Fecha del día de hoy
+    today = date.today()
+
     # Un try catch para manejar errores, ya sea que alguno de los 2 servicios no responda
     try:
         response = {
@@ -37,7 +41,8 @@ def process_name():
             'gender': gender_data.get('gender'),
             'gender_probability': gender_data.get('probability'),
             'age': age_data.get('age'),
-            'autor': 'Elder Pum - 201700761'
+            'autor': 'Elder Pum - 201700761',
+            'date': today.strftime("%d/%m/%Y"),
         }
     except:
         return jsonify({'error': 'Error en la comunicación con los servicios'}), 500

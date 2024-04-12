@@ -31,6 +31,7 @@ jobs:
       # Paso de entrega
       - name: Deliver
         run: |
+          cd practica3
           docker push epum/agify:latest
           docker push epum/genderize:latest
           docker push epum/main:latest

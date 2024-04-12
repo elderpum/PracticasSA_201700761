@@ -25,7 +25,7 @@ jobs:
           DOCKER_BUILDKIT: 1
         run: |
           cd practica3
-          docker build -t epum/agifiy:latest -f agify.dockerfile .
+          docker build -t epum/agify:latest -f agify.dockerfile .
           docker push epum/agifiy:latest
       # Build and push the Docker image
       - name: Build and push docker image genderize

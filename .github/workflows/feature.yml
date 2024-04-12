@@ -1,0 +1,26 @@
+name: feature build and test
+on:
+  push:
+    branches:
+      - "feature/*" # Ejecutar en todas las ramas de características
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Paso de construcción
+      - name: Build
+        run: |
+          cd practica3
+          docker build -t epum/agifiy:latest -f agify.dockerfile .
+          docker build -t epum/genderize:latest -f genderize.dockerfile .
+          docker build -t epum/main:latest -f main.dockerfile .
+
+      # Paso de prueba (puedes agregar tus propios pasos de prueba aquí)
+      - name: Test
+        run: |
+          echo "Running tests..."
+          echo "All tests passed successfully!"

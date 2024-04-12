@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: microservices-201700761
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-agify
+  namespace: microservices-201700761
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-agify
+  template:
+    metadata:
+      labels:
+        app: service-agify
+    spec:
+      containers:
+        - name: service-agify
+          image: epum/agify:latest
+          ports:
+            - containerPort: 5001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-agify
+  namespace: microservices-201700761
+spec:
+  selector:
+    app: service-agify
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001

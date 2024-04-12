@@ -1,0 +1,75 @@
+name: production build and deploy
+on:
+  push:
+    branches:
+      - "main"
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: cluster-1 # cluster name
+  GKE_ZONE: us-central1-c # cluster zone
+jobs:
+  push-images:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Log in to Dockerhub
+      - name: Log in to Dockerhub
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      # Build and push the Docker image
+      - name: Build and push docker image agify
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          cd practica3
+          docker build -t epum/agify:latest -f agify.dockerfile .
+          docker push epum/agify:latest
+      # Build and push the Docker image
+      - name: Build and push docker image genderize
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          cd practica3
+          docker build -t epum/genderize:latest -f genderize.dockerfile .
+          docker push epum/genderize:latest
+      # Build and push the Docker image
+      - name: Build and push docker image core
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          cd practica3
+          docker build -t epum/main:latest -f main.dockerfile .
+          docker push epum/main:latest
+  deploy:
+    needs: [push-images]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # Setup gcloud CLI
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{secrets.GKE_SA_KEY_JSON}}
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
+      - run: |-
+          gcloud --quiet auth configure-docker
+      # Get the GKE credentials so we can deploy to the cluster
+      - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+      # Apply the Kubernetes manifest for deployment
+      - name: Deploy agify, genderize and main
+        run: |
+          kubectl delete deployment service-agify -n microservices-201700761
+          kubectl delete deployment service-genderize -n microservices-201700761
+          kubectl delete deployment service-main -n microservices-201700761
+
+          kubectl apply -f practica3/agify.yaml
+          kubectl apply -f practica3/genderize.yaml
+          kubectl apply -f practica3/main.yaml

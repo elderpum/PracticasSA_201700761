@@ -68,9 +68,7 @@ jobs:
         run: |
           cd practica3
 
-          kubectl delete services --all -n microservices-201700761
           kubectl delete deployments --all -n microservices-201700761
-          kubectl delete namespace microservices-201700761
 
           kubectl apply -f agify.yaml
           kubectl apply -f genderize.yaml

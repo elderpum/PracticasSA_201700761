@@ -43,6 +43,7 @@ def process_name():
             'age': age_data.get('age'),
             'autor': 'Elder Pum - 201700761',
             'date': today.strftime("%d/%m/%Y"),
+            'calificacion': True,
         }
     except:
         return jsonify({'error': 'Error en la comunicación con los servicios'}), 500
